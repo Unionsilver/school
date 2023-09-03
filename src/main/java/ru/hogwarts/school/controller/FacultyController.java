@@ -30,4 +30,5 @@ public class FacultyController {
     public Student delete (@PathVariable long id){
         return facultyService.deleteStudent(id);
     }
+
 }

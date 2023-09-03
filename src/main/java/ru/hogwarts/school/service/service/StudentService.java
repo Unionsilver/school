@@ -7,8 +7,12 @@ import java.util.List;
 public interface StudentService {
     Student createStudent(Student student);
     Student readStudent (long id);
-    Student updateStudent (Student student);
+
+    Student updateStudent(Student student);
+
     Student deleteStudent (long id);
 
     List<Student> readAll(int age);
+
+    Student editStudent(Student student);
 }
