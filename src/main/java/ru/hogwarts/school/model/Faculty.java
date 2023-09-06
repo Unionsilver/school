@@ -1,19 +1,27 @@
 package ru.hogwarts.school.model;
 
-import java.util.Objects;
+import nonapi.io.github.classgraph.json.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
+import java.util.Objects;
+@Entity
 public class Faculty {
+    @Id
+    @GeneratedValue
 
     private long id;
-    private String name, color;
-
-    public Faculty() {
-    }
+    private String name;
+    private String color;
 
     public Faculty(long id, String name, String color) {
         this.id = id;
         this.name = name;
         this.color = color;
+    }
+
+    public Faculty() {
     }
 
     @Override

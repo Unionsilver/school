@@ -1,56 +1,59 @@
 package ru.hogwarts.school.service.implement;
 
 import org.springframework.stereotype.Service;
-import ru.hogwarts.school.excepcion.StudentException;
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.excepcion.FacultyException;
+import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.service.FacultyService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 @Service
 public class FacultyServiceImpl implements FacultyService {
-    private final Map<Long, Student> students = new HashMap<>();
-    private  long id = 0;
-    @Override
-    public Student createStudent(Student student) {
-        if (students.containsValue(student))
-            throw new StudentException("студент в базе");
-        student.setId(++id);
-        students.put(student.getId(),student);
-        return student;
+    private final FacultyRepository facultyRepository;
+
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
 
     @Override
-    public Student readStudent(long id) {
-        if (!students.containsKey(id)) {
-            throw new StudentException("студент не найден");
+    public Faculty createStudent(Faculty faculty) {
+        if (facultyRepository.findByNameAndColor(faculty.getName(), faculty.getColor()).isPresent()) {
+            throw new FacultyException("факультет в базе");
         }
-        return students.get(id);
+        return facultyRepository.save(faculty);
     }
 
     @Override
-    public Student updateStudent(Student student) {
-        if(students.containsKey(student.getId())) {
-            throw new StudentException("студент не найден");
+    public Faculty readStudent(long id) {
+        Optional<Faculty> faculty = facultyRepository.findById(id);
+        if (faculty.isEmpty()) {
+            throw new FacultyException("факультет не найден");
         }
-        students.put(student.getId(),student);
-        return student;
+        return faculty.get();
     }
 
     @Override
-    public Student deleteStudent(long id) {
-        Student student = students.remove(id);
-        if (student == null) {
-            throw new StudentException("студент не найден");
-        }
-        return student;
+    public Faculty updateStudent(Faculty faculty) {
+        if (facultyRepository.findById(faculty.getId()).isEmpty())
+            throw new FacultyException("факультет не найден");
+        return facultyRepository.save(faculty);
     }
+
+
     @Override
-    public List<Student> readAll(int color) {
-        return students.values().stream()
-                .filter(st -> st.getAge() == color)
-                .collect(Collectors.toUnmodifiableList());
+    public Faculty deleteStudent(long id) {
+        Optional<Faculty> faculty = facultyRepository.findById(id);
+        if (faculty.isEmpty()) {
+            throw new FacultyException("факультет не найдет");
+        }
+        facultyRepository.deleteById(id);
+        return faculty.get();
+    }
+
+    @Override
+    public List<Faculty> readAll(String color) {
+        return facultyRepository.findByColor(color);
     }
 }
