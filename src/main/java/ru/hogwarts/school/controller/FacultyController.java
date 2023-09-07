@@ -30,5 +30,9 @@ public class FacultyController {
     public Faculty delete (@PathVariable long id){
         return facultyService.deleteStudent(id);
     }
+    public Faculty find_by_id (@PathVariable long id) {
+        return (Faculty) facultyService.findById(id);
+
+    }
 
 }

@@ -13,5 +13,6 @@ public interface FacultyService {
     Faculty updateStudent (Faculty student);
     Faculty deleteStudent (long id);
 
-    List<Faculty> readAll(String color);
+    List<Student> findById(long id);
+
 }

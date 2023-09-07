@@ -11,8 +11,5 @@ public interface StudentService {
     Student updateStudent(Student student);
 
     Student deleteStudent (long id);
-
     List<Student> readAll(int age);
-
-    Student editStudent(Student student);
 }

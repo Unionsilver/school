@@ -58,9 +58,4 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> readAll(int age) {
         return studentRepository.findByAge(age);
     }
-
-    @Override
-    public Student editStudent(Student student) {
-        return null;
-    }
 }

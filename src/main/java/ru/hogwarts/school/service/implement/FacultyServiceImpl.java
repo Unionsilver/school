@@ -56,10 +56,6 @@ public class FacultyServiceImpl implements FacultyService {
         return faculty.get();
     }
 
-    @Override
-    public List<Faculty> readAll(String color) {
-        return facultyRepository.findByColor(color);
-    }
     public List<Student>findById(long id) {
         return studentRepository.findByFaculty_id(id);
     }
