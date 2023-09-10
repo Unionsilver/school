@@ -35,7 +35,7 @@ public interface FacultyServiceTest {
         }
         @Test
         void create_FacultyInDatabase_throwFacultyCRUDException() {
-            when(facultyRepository.findByNameAndColor(faculty.getName(), faculty.getColor()))
+            when(facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(faculty.getName(), faculty.getColor()))
                     .thenReturn(Optional.of(faculty));
             FacultyException result = assertThrows(FacultyException.class, () -> underTest.createFaculty(faculty));
             assertEquals("уже такой фак есть", result.getMessage());

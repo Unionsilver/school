@@ -50,6 +50,10 @@ public class StudentController {
     public  ResponseEntity<List<Student>> getByAge(@RequestParam int age){
         return new ResponseEntity<>(studentService.getAllByAge(age),HttpStatus.OK);
     }
+    @GetMapping("/ageInRange")
+    public ResponseEntity<List<Student>> ageInRange(@RequestParam int floor, @RequestParam int ceiling) {
+        return new ResponseEntity<>(studentService.getStudentsByAgeInRange(floor, ceiling), HttpStatus.OK);
+    }
 
 
 }

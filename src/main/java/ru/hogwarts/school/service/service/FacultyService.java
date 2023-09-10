@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface FacultyService {
 
-    Faculty createFaculty(Faculty faculty);
+
 
     Faculty getByID (long id);
     Faculty updateFaculty (Faculty faculty);
     Faculty deleteFaculty (long id);
-    List<Faculty> returnFacultyByNameAndColor(String color);
+    List<Faculty> returnFacultyByNameAndColor(String searchString);
 
 
     Faculty create(Faculty faculty);

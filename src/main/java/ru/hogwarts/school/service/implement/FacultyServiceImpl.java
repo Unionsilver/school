@@ -21,14 +21,6 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty createFaculty(Faculty faculty) {
-        if (facultyRepository.findByNameAndColor(faculty.getName(), faculty.getColor()).isPresent()) {
-            throw new FacultyException("уже такой фак есть");
-        }
-        return facultyRepository.save(faculty);
-    }
-
-    @Override
     public Faculty getByID(long id) {
         Optional<Faculty> faculty = facultyRepository.findById(id);
         if (faculty.isEmpty()) {
@@ -54,13 +46,13 @@ public class FacultyServiceImpl implements FacultyService {
         facultyRepository.deleteById(id);
         return faculty.get();
     }
-
-    public List<Faculty> returnFacultyByNameAndColor(String color) {
-        return facultyRepository.findByColor(color);
+    @Override
+    public List<Faculty> returnFacultyByNameAndColor(String searchString) {
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(searchString,searchString);
     }
     @Override
     public Faculty create(Faculty faculty) {
-        if (facultyRepository.findByNameAndColor(faculty.getName(), faculty.getColor()).isPresent()) {
+        if (facultyRepository.findByName(faculty.getName()).isPresent()) {
             throw new FacultyException("такой факультет уже есть в базе");
         }
         return facultyRepository.save(faculty);
