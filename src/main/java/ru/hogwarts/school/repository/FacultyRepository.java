@@ -7,11 +7,12 @@ import ru.hogwarts.school.model.Faculty;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty,Long> {
 
     List<Faculty> findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(String name, String color);
     Optional<Faculty> findByName(String name);
-    List<Faculty> findByColor(String color );
+    Optional<Faculty> findByColor(String color );
 }

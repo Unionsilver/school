@@ -41,6 +41,6 @@ public class FacultyController {
     }
     @GetMapping("/colorOrName")
     public Collection<Faculty> findByColorName (@RequestParam String searchString) {
-        return  facultyService.returnFacultyByNameAndColor(searchString);
+        return  facultyService.searchFacultyByNameOrColor(searchString);
     }
 }

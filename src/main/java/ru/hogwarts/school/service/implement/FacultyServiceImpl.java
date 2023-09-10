@@ -13,11 +13,9 @@ import java.util.Optional;
 @Service
 public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository facultyRepository;
-    private final StudentRepository studentRepository;
 
-    public FacultyServiceImpl(FacultyRepository facultyRepository, StudentRepository studentRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
-        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -47,9 +45,15 @@ public class FacultyServiceImpl implements FacultyService {
         return faculty.get();
     }
     @Override
-    public List<Faculty> returnFacultyByNameAndColor(String searchString) {
+    public List<Faculty> searchFacultyByNameOrColor(String searchString) {
         return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(searchString,searchString);
     }
+
+    @Override
+    public Faculty getFacultyByColor(String color) {
+        return facultyRepository.findByColor(color).orElseThrow(() -> new FacultyException("не найден фак"));
+    }
+
     @Override
     public Faculty create(Faculty faculty) {
         if (facultyRepository.findByName(faculty.getName()).isPresent()) {

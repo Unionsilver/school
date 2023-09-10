@@ -35,10 +35,10 @@ public interface FacultyServiceTest {
         }
         @Test
         void create_FacultyInDatabase_throwFacultyCRUDException() {
-            when(facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(faculty.getName(), faculty.getColor()))
+            when(facultyRepository.findByName(faculty.getName()))
                     .thenReturn(Optional.of(faculty));
-            FacultyException result = assertThrows(FacultyException.class, () -> underTest.createFaculty(faculty));
-            assertEquals("уже такой фак есть", result.getMessage());
+            FacultyException result = assertThrows(FacultyException.class, () -> underTest.create(faculty));
+            assertEquals("такой факультет уже есть в базе", result.getMessage());
         }
         @Test
         void read_FacultyInDatabase_addAndReturn() {
@@ -80,17 +80,18 @@ public interface FacultyServiceTest {
             assertEquals("не найден фак", result.getMessage());
         }
         @Test
-        void findByColor_areFacultyWithColorInDatabase_returnListWithFacultyByColor() {
-            when(facultyRepository.findByColor(faculty.getColor())).thenReturn(List.of(faculty));
-            List<Faculty> res = underTest.returnFacultyByNameAndColor(faculty.getColor());
-            assertEquals(List.of(faculty), res);
+        void getFacultyByColor_areFacultyWithColorInDatabase_returnListWithFacultyByColor() {
+            when(facultyRepository.findByColor(faculty.getColor())).thenReturn(Optional.of(faculty));
+            var res = underTest.getFacultyByColor(faculty.getColor());
+            assertEquals(faculty, res);
         }
         @Test
-        void findByColor_areNotFacultyWithColorInDatabase_returnListEmptyList() {
-            when(facultyRepository.findByColor("белый")).thenReturn(new ArrayList<Faculty>());
-            List<Faculty> result = underTest.returnFacultyByNameAndColor("белый");
-            List<Faculty> expected = Collections.<Faculty>emptyList();
-            assertEquals(expected, result);
+        void getFacultyByColor_areNotFacultyWithColorInDatabase_throwsFacultyException() {
+            when(facultyRepository.findByColor("белый")).thenThrow(new FacultyException("не найден фак"));
+
+            var ex = assertThrows(FacultyException.class, ()-> underTest.getFacultyByColor("белый"));
+
+            assertEquals("не найден фак", ex.getMessage());
         }
     }
 }
