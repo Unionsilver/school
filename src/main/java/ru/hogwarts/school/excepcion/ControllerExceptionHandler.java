@@ -24,6 +24,3 @@ public class ControllerExceptionHandler {
                 .body(ex.getMessage());
     }
 }
-
-
-
