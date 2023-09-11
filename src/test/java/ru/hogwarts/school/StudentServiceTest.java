@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.excepcion.StudentException;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.repository.StudentService;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.implement.StudentServiceImpl;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public interface StudentServiceTest {
     @ExtendWith(MockitoExtension.class)
     class StudentServiceImplTest {
         @Mock
-        StudentService studentRepository;
+        StudentRepository studentRepository;
         @InjectMocks
         StudentServiceImpl underTest;
         Student student = new Student(1L, "Igor", 30);

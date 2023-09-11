@@ -5,19 +5,18 @@ import org.mockito.Mockito;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.repository.AvatarRepository;
-import ru.hogwarts.school.service.service.StudentService;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class AvatarServiceImplTest {
-    StudentService studentService = mock(StudentService.class);
+    StudentRepository studentRepository = mock(StudentRepository.class);
     AvatarRepository avatarRepository = mock(AvatarRepository.class);
     String avatarDir = "./src/test/resources/avatar";
     AvatarServiceImpl avatarService = new AvatarServiceImpl(avatarDir, avatarRepository,
-            (ru.hogwarts.school.repository.StudentService) studentService);
+             studentRepository);
 
 
     @Test
