@@ -3,16 +3,16 @@ package ru.hogwarts.school.service.implement;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.excepcion.StudentException;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.repository.StudentRepository;
-import ru.hogwarts.school.service.service.StudentService;
+import ru.hogwarts.school.repository.StudentService;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StudentServiceImpl implements StudentService {
- private final StudentRepository studentRepository;
+public class StudentServiceImpl implements ru.hogwarts.school.service.service.StudentService {
+ private final StudentService studentRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentService studentRepository) {
         this.studentRepository = studentRepository;
     }
 
