@@ -12,10 +12,8 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.implement.FacultyServiceImpl;
+import ru.hogwarts.school.service.implement.StudentServiceImpl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -38,9 +36,14 @@ public class FacultyControllerTest {
     FacultyRepository facultyRepository;
     @MockBean
     StudentRepository studentRepository;
-    Faculty faculty = new Faculty(1L,"Gryffyndor", "red");
+    @SpyBean
+    StudentServiceImpl studentService;
+    Faculty faculty = new Faculty(1L,"Gryffindor", "red");
      @Test
     void create__status200AndSavedToDb() throws Exception {
+         when(facultyRepository.findByName(faculty.getName()))
+                 .thenReturn(Optional.empty());
+         when(facultyRepository.save(faculty)).thenReturn(faculty);
          mockMvc.perform(post("/faculty")
                  .content(objectMapper.writeValueAsString(faculty))
                  .contentType(MediaType.APPLICATION_JSON)

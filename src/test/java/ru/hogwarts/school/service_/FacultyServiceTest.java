@@ -1,4 +1,4 @@
-package ru.hogwarts.school.controller_;
+package ru.hogwarts.school.service_;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
