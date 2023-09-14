@@ -5,11 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.hogwarts.school.excepcion.FacultyException;
-import ru.hogwarts.school.excepcion.StudentException;
 
 @ControllerAdvice
-@ResponseStatus(value = HttpStatus.BAD_REQUEST,reason = "Exception")
+//@ResponseStatus(value = HttpStatus.BAD_REQUEST,reason = "Exception")
 public class ControllerExceptionHandler {
     @ExceptionHandler(StudentException.class)
     public ResponseEntity<String> handleStudentException (StudentException ex) {

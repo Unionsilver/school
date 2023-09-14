@@ -14,11 +14,12 @@ import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.implement.FacultyServiceImpl;
 import ru.hogwarts.school.service.implement.StudentServiceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,16 +50,53 @@ public class FacultyControllerTest {
                  .contentType(MediaType.APPLICATION_JSON)
                  .accept(MediaType.APPLICATION_JSON))
                  .andExpect(status().isOk())
-                 .andExpect(jsonPath("$name").value((faculty.getName())))
-                 .andExpect(jsonPath("$color").value(faculty.getColor()));
+                 .andExpect(jsonPath("$.name").value((faculty.getName())))
+                 .andExpect(jsonPath("$.color").value(faculty.getColor()));
      }
      @Test
-    void readALl () throws Exception{
-        when(facultyRepository.findByColor(faculty.getColor())).thenReturn(Optional.of(faculty));
+    void findByColorName__ReturnListOfFacultiesWithColorOrNameMatchingProvideSearchString () throws Exception{
+        when(facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(anyString(), anyString()))
+                .thenReturn(List.of(faculty));
+
+        mockMvc.perform(get(
+                "/faculty/colorOrName?searchString=r"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name")
+                        .value(faculty.getName()))
+                .andExpect(jsonPath("$[0].color")
+                        .value(faculty.getColor()));
+     }
+     @Test
+    void update__status200AndUpdateToDb() throws Exception {
+        when(facultyRepository.findById(faculty.getId()))
+                .thenReturn(Optional.of(faculty));
+        when(facultyRepository.save(faculty)).thenReturn(faculty);
+        mockMvc.perform(post("/faculty")
+                        .content(objectMapper.writeValueAsString(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(faculty.getId()));
+    }
+    @Test
+    void delete__status200AndDeleteToDb() throws Exception{
+        when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty));
+        mockMvc.perform(delete("/faculty/" + faculty.getId())
+                        .content(objectMapper.writeValueAsString(faculty))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(faculty.getId()));
+    }
+    @Test
+    void readStudentsByFacultyId__status200AndReturnList() throws Exception{
+        when(facultyRepository.findByColor(faculty.getColor()))
+                .thenReturn(Optional.of(faculty));
 
         mockMvc.perform(get("/faculty/color/" + faculty.getColor()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(faculty.getName()))
                 .andExpect(jsonPath("$[0].color").value(faculty.getColor()));
-     }
+    }
+
+
 }
