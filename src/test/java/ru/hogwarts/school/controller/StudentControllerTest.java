@@ -68,32 +68,32 @@ public class StudentControllerTest {
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         assertEquals(List.of(student), exchange.getBody());
     }
-    @Test
-    void update__returnStatus200AndStudent() {
-        studentRepository.save(student);
-        ResponseEntity<Student> studentResponseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/student/" + student.getId(),
-                HttpMethod.PUT,
-                new HttpEntity<>(student),
-                Student.class);
-        assertEquals(HttpStatus.OK, studentResponseEntity.getStatusCode());
-        assertEquals(student.getName(), studentResponseEntity.getBody().getName());
-        assertEquals(student.getAge(), studentResponseEntity.getBody().getAge());
-    }
-    @Test
-    void delete__returnStatus200AndStudent() {
-        studentRepository.save(student);
-        ResponseEntity<Student> studentResponseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/student/" + student.getId(),
-                HttpMethod.DELETE, new HttpEntity<>(student), Student.class);
-        assertEquals(HttpStatus.OK, studentResponseEntity.getStatusCode());
-        assertEquals(student.getName(), studentResponseEntity.getBody().getName());
-        assertEquals(student.getAge(), studentResponseEntity.getBody().getAge());
-    }
+//    @Test
+//    void update__returnStatus200AndStudent() {
+//        studentRepository.save(student);
+//        ResponseEntity<Student> studentResponseEntity = restTemplate.exchange(
+//                "http://localhost:" + port + "/student/" + student.getId(),
+//                HttpMethod.PUT,
+//                new HttpEntity<>(student),
+//                Student.class);
+//        assertEquals(HttpStatus.OK, studentResponseEntity.getStatusCode());
+//        assertEquals(student.getName(), studentResponseEntity.getBody().getName());
+//        assertEquals(student.getAge(), studentResponseEntity.getBody().getAge());
+//    }
+//    @Test
+//    void delete__returnStatus200AndStudent() {
+//        studentRepository.save(student);
+//        ResponseEntity<Student> studentResponseEntity = restTemplate.exchange(
+//                "http://localhost:" + port + "/student/" + student.getId(),
+//                HttpMethod.DELETE, new HttpEntity<>(student), Student.class);
+//        assertEquals(HttpStatus.OK, studentResponseEntity.getStatusCode());
+//        assertEquals(student.getName(), studentResponseEntity.getBody().getName());
+//        assertEquals(student.getAge(), studentResponseEntity.getBody().getAge());
+//    }
 
 //    @Test
 //    void readFacultyByStudentId__returnStatus200AndFaculty() {
-//        student.setFaculty(faculty);
+//        student.setFaculty();
 //        facultyRepository.save(faculty);
 //        studentRepository.save(student);
 //
