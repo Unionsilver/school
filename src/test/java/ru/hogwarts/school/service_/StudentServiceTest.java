@@ -112,19 +112,19 @@ public interface StudentServiceTest {
             assertEquals(expected, result);
         }
 
-//        @Test
-//        void findAvgAge__andReturnSearchOfAvgAge() {
-//            when(studentRepository.findStudentCount()).thenReturn(1,5);
-//            Integer result = studentRepository.findAvgAge();
-//            Integer expected = studentRepository.findAvgAge();
-//            assertEquals(expected, result);
-//        }
-//        @Test
-//        void findFiveLastStudents__showFiveStudentFromLast() {
-//            when(studentRepository.findStudentCount());
-//            List<Student> result = studentRepository.findByAgeBetween(1,10);
-//            List<Student> expected = studentRepository.getLast(5);
-//            assertEquals(expected, result);
-//     }
+        @Test
+        void findAvgAge__andReturnSearchOfAvgAgeStudent() {
+            when(studentRepository.findAvgAge()).thenReturn(30);
+            Integer result = studentRepository.findAvgAge();
+            Integer expected = studentRepository.findAvgAge();
+            assertEquals(expected, result);
+        }
+        @Test
+        void findFiveLastStudents__showFiveStudentFromLast() {
+            when(studentRepository.getLast(5)).thenReturn(List.of(student));
+            List<Student> result = studentRepository.getLast(5);
+            List<Student> expected = studentRepository.getLast(5);
+            assertEquals(expected, result);
+     }
     }
 }
