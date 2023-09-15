@@ -39,8 +39,7 @@ public class StudentController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Student> delete (@PathVariable long id){
-        studentService.deleteStudent(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(studentService.deleteStudent(id));
     }
     @GetMapping()
     public ResponseEntity<List<Student>> allStudent(){
@@ -51,8 +50,10 @@ public class StudentController {
         return new ResponseEntity<>(studentService.getAllByAge(age),HttpStatus.OK);
     }
     @GetMapping("/ageInRange")
-    public ResponseEntity<List<Student>> ageInRange(@RequestParam int floor, @RequestParam int ceiling) {
-        return new ResponseEntity<>(studentService.getStudentsByAgeInRange(floor, ceiling), HttpStatus.OK);
+    public ResponseEntity<List<Student>> ageInRange(@RequestParam int floor,
+                                                    @RequestParam int ceiling) {
+        return new ResponseEntity<>(studentService
+                .getStudentsByAgeInRange(floor, ceiling), HttpStatus.OK);
     }
     @GetMapping("/count")
     public Integer findStudentCount(){
