@@ -3,16 +3,24 @@ package ru.hogwarts.school.service.implement;
 import nonapi.io.github.classgraph.utils.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.service.service.StudentService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -39,22 +47,10 @@ class AvatarServiceImplTest {
     }
 
     @Test
-    void findAvatar() {
-    }
-
-    @Test
-    void generationDataForDB() {
-    }
-
-    @Test
-    void getExtension() {
-    }
-
-    @Test
-    void testFindAvatar() {
-    }
-
-    @Test
-    void getExtensions() {
+    void getPage__returnListOfAvatar(){
+        when(avatarRepository.findAll((PageRequest)any()))
+                .thenReturn(new PageImpl<>(List.of()));
+        Collection<Avatar> result = avatarService.getPage(0,10);
+        assertEquals(List.of(),result);
     }
 }

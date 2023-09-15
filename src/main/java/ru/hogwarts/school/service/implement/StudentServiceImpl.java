@@ -73,4 +73,19 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     public List<Student> getStudentsByAgeInRange(int floor, int ceiling) {
         return studentRepository.findByAgeBetween(floor, ceiling);
     }
+
+    @Override
+    public Integer findStudentCount() {
+        return studentRepository.findStudentCount();
+    }
+
+    @Override
+    public Integer findAvgAge() {
+        return studentRepository.findAvgAge();
+    }
+
+    @Override
+    public List<Student> findFiveLastStudents() {
+        return studentRepository.getLast(5);
+    }
 }

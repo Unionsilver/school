@@ -54,6 +54,18 @@ public class StudentController {
     public ResponseEntity<List<Student>> ageInRange(@RequestParam int floor, @RequestParam int ceiling) {
         return new ResponseEntity<>(studentService.getStudentsByAgeInRange(floor, ceiling), HttpStatus.OK);
     }
+    @GetMapping("/count")
+    public Integer findStudentCount(){
+       return studentService.findStudentCount();
+    }
+    @GetMapping("/age-avg")
+    public Integer findAvgAge(){
+        return studentService.findAvgAge();
+    }
+    @GetMapping("/last-five-student")
+    public List<Student> findLastFiveStudent(){
+        return studentService.findFiveLastStudents();
+    }
 
 
 }

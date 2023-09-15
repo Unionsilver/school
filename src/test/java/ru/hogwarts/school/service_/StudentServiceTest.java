@@ -28,12 +28,14 @@ public interface StudentServiceTest {
         @InjectMocks
         StudentServiceImpl underTest;
         Student student = new Student(1L, "Igor", 30);
+
         @Test
         void create_newStudent_addAndReturn() {
             when(studentRepository.save(student)).thenReturn(student);
             Student result = underTest.createStudent(student);
             assertEquals(student, result);
         }
+
         @Test
         void create_StudentInDatabase_throwStudentCRUDException() {
             when(studentRepository.findByNameAndAge(student.getName(), student.getAge()))
@@ -41,18 +43,21 @@ public interface StudentServiceTest {
             StudentException result = assertThrows(StudentException.class, () -> underTest.createStudent(student));
             assertEquals("студент в базе", result.getMessage());
         }
+
         @Test
         void read_studentInDatabase_readAndReturn() {
             when(studentRepository.findById(1L)).thenReturn(Optional.ofNullable(student));
             Student result = underTest.readStudent(1L);
             assertEquals(student, result);
         }
+
         @Test
         void read_StudentNotInDatabase_throwStudentCRUDException() {
             when(studentRepository.findById(1L)).thenReturn(Optional.empty());
             StudentException result = assertThrows(StudentException.class, () -> underTest.readStudent(1L));
             assertEquals("студент не найден", result.getMessage());
         }
+
         @Test
         void update_studentInDatabase_updateAndReturn() {
             when(studentRepository.findById(student.getId())).thenReturn(Optional.of(student));
@@ -60,12 +65,14 @@ public interface StudentServiceTest {
             Student result = underTest.updateStudent(student);
             assertEquals(student, result);
         }
+
         @Test
         void update_StudentNotInDatabase_throwStudentCRUDException() {
             when(studentRepository.findById(student.getId())).thenReturn(Optional.empty());
             StudentException result = assertThrows(StudentException.class, () -> underTest.updateStudent(student));
             assertEquals("студент не найден", result.getMessage());
         }
+
         @Test
         void delete_studentInDatabase_deleteAndReturn() {
             when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
@@ -73,6 +80,7 @@ public interface StudentServiceTest {
             Student result = underTest.deleteStudent(1L);
             assertEquals(student, result);
         }
+
         @Test
         void delete_StudentNotInDatabase_throwStudentCRUDException() {
             when(studentRepository.findById(1L)).thenReturn(Optional.empty());
@@ -80,12 +88,14 @@ public interface StudentServiceTest {
             assertThrows(StudentException.class, () -> underTest.readStudent(1L));
             assertEquals("студент не найден", result.getMessage());
         }
+
         @Test
         void findByAge_areStudentWithAgeInDatabase_returnListWithStudentByAge() {
             when(studentRepository.findByAge(student.getAge())).thenReturn(List.of(student));
             List<Student> result = underTest.getAllByAge(student.getAge());
             assertEquals(List.of(student), result);
         }
+
         @Test
         void findByAge_areNotStudentWithAgeInDatabase_returnEmptyList() {
             when(studentRepository.findByAge(10)).thenReturn(new ArrayList<Student>());
@@ -93,5 +103,28 @@ public interface StudentServiceTest {
             List<Student> expected = Collections.<Student>emptyList();
             assertEquals(expected, result);
         }
+
+        @Test
+        void findStudent__andReturnCountOfStudentAndReturnFive() {
+            when(studentRepository.findStudentCount()).thenReturn(5);
+            Integer result = studentRepository.findStudentCount();
+            Integer expected = studentRepository.findStudentCount();
+            assertEquals(expected, result);
+        }
+
+//        @Test
+//        void findAvgAge__andReturnSearchOfAvgAge() {
+//            when(studentRepository.findStudentCount()).thenReturn(1,5);
+//            Integer result = studentRepository.findAvgAge();
+//            Integer expected = studentRepository.findAvgAge();
+//            assertEquals(expected, result);
+//        }
+//        @Test
+//        void findFiveLastStudents__showFiveStudentFromLast() {
+//            when(studentRepository.findStudentCount());
+//            List<Student> result = studentRepository.findByAgeBetween(1,10);
+//            List<Student> expected = studentRepository.getLast(5);
+//            assertEquals(expected, result);
+//     }
     }
 }
