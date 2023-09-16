@@ -1,0 +1,7 @@
+databaseChangelog:
+  - include:
+      relativeToChangelogFile: true
+      file: student.sql
+  - include:
+      relativeToChangelogFile: true
+      file: faculty.sql
