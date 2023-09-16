@@ -115,7 +115,7 @@ public interface StudentServiceTest {
         @Test
         void findAvgAge__andReturnSearchOfAvgAgeStudent() {
             when(studentRepository.findAvgAge()).thenReturn(30);
-            Integer result = studentRepository.findAvgAge();
+            Integer result = underTest.findAvgAge();
             Integer expected = studentRepository.findAvgAge();
             assertEquals(expected, result);
         }
