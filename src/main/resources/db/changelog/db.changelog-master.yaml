@@ -1,4 +1,4 @@
-databaseChangelog:
+databaseChangeLog:
   - include:
       relativeToChangelogFile: true
       file: student.sql
