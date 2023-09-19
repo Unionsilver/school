@@ -27,7 +27,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
         }
 
         Student savedStudent = studentRepository.save(student);
-        logger.info("из метода create вернули " + student);
+        logger.info("из метода create создали студента " + savedStudent);
         return savedStudent;
     }
 
@@ -36,11 +36,12 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
         logger.info("был вызван метод для read с данными" + id);
 
         Optional<Student> student = studentRepository.findById(id);
-        logger.info("из метода read вернули " + id);
         if (student.isEmpty()) {
             throw new StudentException("студент не найден");
         }
-        return student.get();
+        Student student1 = student.get();
+        logger.info("из метода read получили " + student1);
+        return student1;
 
     }
 
@@ -52,7 +53,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
             throw new StudentException("студент не найден");
         }
         Student saveStudent = studentRepository.save(student);
-        logger.info("из метода update вернули " + student);
+        logger.info("из метода update вернули " + saveStudent);
         return saveStudent;
     }
 
@@ -64,15 +65,16 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
             throw new StudentException("студент не найден");
         }
        studentRepository.deleteById(id);
-        logger.info("из метода delete вернули " + id);
-        return student.get();
+        Student student1 = student.get();
+        logger.info("из метода delete удалила студента " + student1);
+        return student1;
     }
 
     @Override
     public List<Student> readAll() {
-        logger.info("был вызван метод для delete с данными всех");
+        logger.info("был вызван метод для readAll всех студентов ");
         List<Student> students = studentRepository.findAll();
-        logger.info("из метода delete вернули всех");
+        logger.info("из метода readAll вернули всех" + students);
         return students;
     }
 
@@ -80,7 +82,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     public List<Student> getAllByAge(int age) {
         logger.info("был вызван метод для getAllByAge  с данными" + age);
         List<Student> byAgeGet = studentRepository.findByAge(age);
-        logger.info("из метода getAllByAge вернули " + age);
+        logger.info("из метода getAllByAge Нашли по возрасту " + byAgeGet);
        return byAgeGet;
     }
 
@@ -88,31 +90,31 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     public List<Student> getAllStudentByFacultyId(long id) {
         logger.info("был вызван метод для getAllStudentByFacultyId с данными" + id);
         List<Student> byFacultyId = studentRepository.findByFacultyId(id);
-        logger.info("из метода getAllStudentByFacultyId вернули " + id);
+        logger.info("из метода getAllStudentByFacultyId нашли по айди факультет " + byFacultyId);
         return byFacultyId;
     }
 
     @Override
     public List<Student> getStudentsByAgeInRange(int floor, int ceiling) {
-        logger.info("был вызван метод для getStudentsByAgeInRange с данными" + floor + ceiling);
+        logger.info("был вызван метод для getStudentsByAgeInRange с данными минимум и максимум" + floor + ceiling);
         List<Student> byAgeBetween = studentRepository.findByAgeBetween(floor, ceiling);
-        logger.info("из метода getStudentsByAgeInRange вернули " + floor + ceiling);
+        logger.info("из метода getStudentsByAgeInRange вернули по  возрасту студента   " + byAgeBetween);
         return byAgeBetween;
     }
 
     @Override
     public Integer findStudentCount() {
-        logger.info("был вызван метод для findStudentCount с данными");
+        logger.info("был вызван метод для findStudentCount");
         Integer studentCount = studentRepository.findStudentCount();
-        logger.info("из метода findStudentCount вернули ");
+        logger.info("из метода findStudentCount вернули " + studentCount);
         return studentCount;
     }
 
     @Override
     public Integer findAvgAge() {
-        logger.info("был вызван метод для findAvgAge с данными");
+        logger.info("был вызван метод для findAvgAge");
         Integer avgAge = studentRepository.findAvgAge();
-        logger.info("из метода findAvgAge вернули ");
+        logger.info("из метода findAvgAge вернули средний возвраст студента " + avgAge);
         return avgAge;
     }
 
@@ -120,7 +122,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     public List<Student> findFiveLastStudents() {
         logger.info("был вызван метод для findFiveLastStudents с данными");
         List<Student> lastFiveStudent = studentRepository.getLast(5);
-        logger.info("из метода findFiveLastStudents вернули ");
+        logger.info("из метода findFiveLastStudents нашли последних 5 студентов " + lastFiveStudent);
         return lastFiveStudent;
     }
 }

@@ -16,9 +16,5 @@ public interface AvatarService {
 
     List<Avatar> getPage(int size, int pageNumber);
 
-    String getExtension(String fileName);
-
-    Avatar findAvatar(long studentId);
-
     String getExtensions(String fileName);
 }

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import static com.datical.liquibase.ext.init.InitProjectUtil.getExtension;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
@@ -61,7 +62,7 @@ public class AvatarServiceImpl implements AvatarService {
             avatar.getFileSize(file.getSize());
             avatar.setMediaType(file.getContentType());
             avatar.setData(generationDataForDB(filePath));
-            logger.info("из метода uploadAvatar вернули " + studentId + " and " + file);
+            logger.info("аватар был успешно сохранен в БД и папку");
 
             avatarRepository.save(avatar);
         }
@@ -71,7 +72,7 @@ public class AvatarServiceImpl implements AvatarService {
     public Avatar findAvatar(Long studentId) {
         logger.info("был вызван метод для findAvatar с данными" + studentId);
         Avatar avatar = avatarRepository.findByStudentId(studentId).orElse(new Avatar());
-        logger.info("из метода findAvatar вернули " + studentId);
+        logger.info("из метода findAvatar вернули  " + avatar);
         return avatar;
     }
 
@@ -91,7 +92,7 @@ public class AvatarServiceImpl implements AvatarService {
             graphics2D.dispose();
             ImageIO.write(preview, getExtensions(filePath.getFileName().toString()), baos);
             byte[] bytes = baos.toByteArray();
-            logger.info("из метода generationDataForDB вернули " + filePath);
+            logger.info("для generationDataForDB получены данные " + bytes);
 
             return bytes;
         }
@@ -102,33 +103,15 @@ public class AvatarServiceImpl implements AvatarService {
         logger.info("был вызван метод для getPage с данными" + pageNumber + " and " + size);
         PageRequest request = PageRequest.of(pageNumber, size);
         List<Avatar> content = avatarRepository.findAll(request).getContent();
-        logger.info("из метода getPage вернули " + pageNumber + " and " + size);
-        return content ;
-
-    }
-
-    @Override
-    public String getExtension(String fileName) {
-        logger.info("был вызван метод для getExtension с данными" + fileName);
-        String substring = fileName.substring(fileName.lastIndexOf(".") + 1);
-        logger.info("из метода getExtension вернули " + fileName);
-        return substring;
-    }
-
-    @Override
-    public Avatar findAvatar(long studentId) {
-        logger.info("был вызван метод для findAvatar с данными" + studentId);
-        Avatar avatar = avatarRepository.findByStudentId(studentId).orElseThrow();
-        logger.info("из метода findAvatar вернули " + studentId);
-        return avatar;
+        logger.info("из метода getPage вернули " + content);
+        return content;
     }
 
     @Override
     public String getExtensions(String fileName) {
         logger.info("был вызван метод для getExtensions с данными" + fileName);
         String substring = fileName.substring(fileName.lastIndexOf(".") + 1);
-        logger.info("из метода getExtensions вернули " + fileName);
+        logger.info("из метода getExtensions вернули " + substring);
         return substring;
-
     }
 }

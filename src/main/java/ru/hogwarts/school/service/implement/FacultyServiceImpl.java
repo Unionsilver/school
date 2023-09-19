@@ -28,7 +28,7 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("факультет не найден");
         }
         Faculty faculty1 = faculty.get();
-        logger.info("из метода getByID вернули " + id);
+        logger.info("из метода getByID вернули " + faculty1);
         return faculty1;
     }
 
@@ -38,7 +38,7 @@ public class FacultyServiceImpl implements FacultyService {
         if (facultyRepository.findById(faculty.getId()).isEmpty())
             throw new FacultyException("факультет не найден");
         Faculty save = facultyRepository.save(faculty);
-        logger.info("из метода updateFaculty вернули " + faculty);
+        logger.info("из метода updateFaculty сохранили " + save);
         return save;
     }
 
@@ -52,7 +52,7 @@ public class FacultyServiceImpl implements FacultyService {
         }
         facultyRepository.deleteById(id);
         Faculty faculty1 = faculty.get();
-        logger.info("из метода deleteFaculty вернули " + id);
+        logger.info("из метода deleteFaculty удалили  " + faculty1);
         return faculty1;
     }
     @Override
@@ -60,7 +60,7 @@ public class FacultyServiceImpl implements FacultyService {
         logger.info("был вызван метод для searchFacultyByNameOrColor с данными" + searchString);
         List<Faculty> searchFacultyByNameOrColor =
                 facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(searchString, searchString);
-        logger.info("из метода searchFacultyByNameOrColor вернули " + searchString);
+        logger.info("из метода searchFacultyByNameOrColor поиск по имени и  цвету " + searchFacultyByNameOrColor);
         return searchFacultyByNameOrColor;
     }
 
@@ -68,7 +68,7 @@ public class FacultyServiceImpl implements FacultyService {
     public Faculty getFacultyByColor(String color) {
         logger.info("был вызван метод для getFacultyByColor с данными" + color);
         Faculty getFacultyByColor = facultyRepository.findByColor(color).orElseThrow(() -> new FacultyException("не найден фак"));
-        logger.info("из метода getFacultyByColor вернули " + color);
+        logger.info("из метода getFacultyByColor вернули " + getFacultyByColor);
         return getFacultyByColor;
     }
 
@@ -79,7 +79,7 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("такой факультет уже есть в базе");
         }
         Faculty createFaculty = facultyRepository.save(faculty);
-        logger.info("из метода create вернули " + faculty);
+        logger.info("из метода create вернули " + createFaculty);
         return createFaculty;
     }
     @Override
@@ -90,7 +90,7 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("не найден фак");
         }
         Faculty readFacultyId = faculty.get();
-        logger.info("из метода read вернули " + id);
+        logger.info("из метода read вернули " + readFacultyId);
         return readFacultyId;
     }
     @Override
@@ -100,7 +100,7 @@ public class FacultyServiceImpl implements FacultyService {
             throw new FacultyException("не найден фак");
         }
         Faculty updateFaculty = facultyRepository.save(faculty);
-        logger.info("из метода update вернули " + faculty);
+        logger.info("из метода update вернули " + updateFaculty);
         return updateFaculty;
     }
     @Override
@@ -112,7 +112,7 @@ public class FacultyServiceImpl implements FacultyService {
         }
         facultyRepository.deleteById(id);
         Faculty deleteById = faculty.get();
-        logger.info("из метода delete вернули " + id);
+        logger.info("из метода delete удалили по айди " + deleteById);
         return deleteById;
     }
 }
