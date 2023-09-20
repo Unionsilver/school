@@ -3,17 +3,19 @@ package ru.hogwarts.school.service.implement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ru.hogwarts.school.excepcion.StudentException;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements ru.hogwarts.school.service.service.StudentService {
     private final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
- private final StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -22,7 +24,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     @Override
     public Student createStudent(Student student) {
         logger.info("был вызван метод для create с данными" + student);
-        if (studentRepository.findByNameAndAge(student.getName(),student.getAge()).isPresent()){
+        if (studentRepository.findByNameAndAge(student.getName(), student.getAge()).isPresent()) {
             throw new StudentException("студент в базе");
         }
 
@@ -61,10 +63,10 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
     public Student deleteStudent(long id) {
         logger.info("был вызван метод для delete с данными" + id);
         Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()){
+        if (student.isEmpty()) {
             throw new StudentException("студент не найден");
         }
-       studentRepository.deleteById(id);
+        studentRepository.deleteById(id);
         Student student1 = student.get();
         logger.info("из метода delete удалила студента " + student1);
         return student1;
@@ -83,7 +85,7 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
         logger.info("был вызван метод для getAllByAge  с данными" + age);
         List<Student> byAgeGet = studentRepository.findByAge(age);
         logger.info("из метода getAllByAge Нашли по возрасту " + byAgeGet);
-       return byAgeGet;
+        return byAgeGet;
     }
 
     @Override
@@ -125,4 +127,24 @@ public class StudentServiceImpl implements ru.hogwarts.school.service.service.St
         logger.info("из метода findFiveLastStudents нашли последних 5 студентов " + lastFiveStudent);
         return lastFiveStudent;
     }
+
+    @Override
+    public List<String> findNameWithFirstLetterIsA() {
+        return  studentRepository.findAll().stream()
+                .map(Student::getName)
+                .filter(name -> StringUtils.startsWithIgnoreCase(name, "a"))
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+    @Override
+    public Double findAvgAgeByStream(){
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
+
+    }
 }
+
+

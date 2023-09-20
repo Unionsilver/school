@@ -8,6 +8,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.service.FacultyService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,5 +115,12 @@ public class FacultyServiceImpl implements FacultyService {
         Faculty deleteById = faculty.get();
         logger.info("из метода delete удалили по айди " + deleteById);
         return deleteById;
+    }
+    @Override
+    public String findByLongestName(){
+        return facultyRepository.findAll().stream()
+                .map(faculty -> faculty.getName())
+                .max(Comparator.comparingInt(name -> name.length()))
+                .orElseThrow(() -> new FacultyException("нет имени факультета в БД"));
     }
 }

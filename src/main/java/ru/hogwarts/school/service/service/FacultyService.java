@@ -22,4 +22,6 @@ public interface FacultyService {
     Faculty update(Faculty faculty);
 
     Faculty delete(long id);
+
+    String findByLongestName();
 }

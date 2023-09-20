@@ -1,6 +1,8 @@
 package ru.hogwarts.school.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liquibase.pro.packaged.C;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,14 +11,17 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.implement.FacultyServiceImpl;
 import ru.hogwarts.school.service.implement.StudentServiceImpl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -81,10 +86,14 @@ public class FacultyControllerTest {
     @Test
     void delete__status200AndDeleteToDb() throws Exception{
         when(facultyRepository.findById(1L)).thenReturn(Optional.of(faculty));
-        mockMvc.perform(delete("/faculty/" + faculty.getId())
+        mockMvc.perform(delete("/faculty" + faculty.getId())
                         .content(objectMapper.writeValueAsString(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(faculty.getId()));
     }
+//    @Test
+//    void findLongestName__andReturnLongestName () throws Exception{
+//          when(facultyService.findByLongestName());
+//    }
 }

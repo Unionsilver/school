@@ -68,5 +68,13 @@ public class StudentController {
         return studentService.findFiveLastStudents();
     }
 
+    @GetMapping("/name-start-with-a")
+    public List<String> nameStartWithLettersA(){
+        return studentService.findNameWithFirstLetterIsA();
+    }
+    @GetMapping("/age-avg-stream")
+    public Double findAvgAgeByStream (){
+        return studentService.findAvgAgeByStream();
+    }
 
 }
