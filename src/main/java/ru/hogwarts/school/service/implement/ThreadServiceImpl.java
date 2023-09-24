@@ -31,7 +31,29 @@ public class ThreadServiceImpl {
         }).start();
 
     }
+    public void threadTwo(){
+        List<Student> all = studentRepository.findAll();
+        logStudent_synchronized(all.get(0));
+        logStudent_synchronized(all.get(1));
+        new Thread(() -> {
+            logStudent_synchronized(all.get(2));
+            logStudent_synchronized(all.get(3));
+        }).start();
+        new Thread(() -> {
+            logStudent_synchronized(all.get(4));
+            logStudent_synchronized(all.get(5));
+        }).start();
+
+    }
     private void logStudent(Student student){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        logger.info(student.toString());
+    }
+    private synchronized void logStudent_synchronized(Student student){
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

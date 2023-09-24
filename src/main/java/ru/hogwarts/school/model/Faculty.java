@@ -45,7 +45,7 @@ public class Faculty {
         if (o == null || getClass() != o.getClass())
             return false;
         Faculty faculty = (Faculty) o;
-        return id == faculty.id && Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color);
+        return Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color);
     }
 
     @Override

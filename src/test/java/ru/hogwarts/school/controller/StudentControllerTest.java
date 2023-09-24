@@ -123,18 +123,29 @@ public class StudentControllerTest {
     @Test
     public void findAvgAgeByStream_returnStatus200AndAvgAgeDoubleNum() {
 
-        facultyRepository.save(faculty);
+////        facultyRepository.save(faculty);
+//        studentRepository.save(student);
+//        studentRepository.save(student1);
+//
+//        Double result = (double) (student.getAge() + student1.getAge()) / 2;
+//        String url = "http://localhost:" + port + "/student/age-avg-steam";
+//        ResponseEntity<Double> responseEntity = restTemplate.getForEntity(url, Double.class);
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        Double avgAge = responseEntity.getBody();
+//        assertEquals(result, avgAge);
+////        assertNotNull(avgAge);
         studentRepository.save(student);
         studentRepository.save(student1);
 
-        String url = "http://localhost:" + port + "/student/age-avg-steam";
-        ResponseEntity<Double> responseEntity = restTemplate.getForEntity(url, Double.class);
-        Double result = (double) (student.getAge() + student1.getAge()) / 2;
+        Double result = (double)(student.getAge() + student1.getAge())/2;
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        Double avgAge = responseEntity.getBody();
-        assertEquals(result, avgAge);
-        assertNotNull(avgAge);
+        ResponseEntity<Double> avgOfStudentAgeByStream = restTemplate.getForEntity("http://localhost:"
+                + port + "/student/age-avg-stream", Double.class );
+
+        assertEquals(HttpStatus.OK, avgOfStudentAgeByStream.getStatusCode());
+        assertEquals(result, avgOfStudentAgeByStream.getBody());
+        assertNotNull(avgOfStudentAgeByStream);
 
     }
 }

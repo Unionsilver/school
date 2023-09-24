@@ -32,4 +32,8 @@ public class AuxiliaryController {
     public void startThreads (){
          threadService.thread();
     }
+        @GetMapping("/thread-synchronized")
+    public void startThreadsTwo (){
+         threadService.threadTwo();
+    }
 }
