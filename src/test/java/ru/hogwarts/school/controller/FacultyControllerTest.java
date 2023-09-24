@@ -10,6 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
@@ -44,8 +46,8 @@ public class FacultyControllerTest {
     StudentRepository studentRepository;
     @SpyBean
     StudentServiceImpl studentService;
-    Faculty faculty = new Faculty(1L,"Gryffindor", "red");
-     @Test
+    Faculty faculty = new Faculty(1L,"Love", "Red");
+    Faculty faculty2 = new Faculty(1L,"Friendship","Green");
     void create__status200AndSavedToDb() throws Exception {
          when(facultyRepository.findByName(faculty.getName()))
                  .thenReturn(Optional.empty());
@@ -92,8 +94,11 @@ public class FacultyControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(faculty.getId()));
     }
-//    @Test
-//    void findLongestName__andReturnLongestName () throws Exception{
-//          when(facultyService.findByLongestName());
-//    }
+    @Test
+     public void findLongestName__andReturnLongestName () throws Exception{
+          when(facultyRepository.findAll()).thenReturn(List.of(faculty, faculty2));
+          mockMvc.perform(MockMvcRequestBuilders.get("/longest-name"))
+                  .andExpect(MockMvcResultMatchers.status().isOk())
+                  .andExpect(MockMvcResultMatchers.content().string(faculty2.getName()));
+    }
 }
